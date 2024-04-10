@@ -49,17 +49,44 @@ public class ParenthesisChecker {
     */
     public static int checkParentheses(StackInterface<Character> stack, String fromString) throws ParenthesesException {
       // TODO:
+      int count=0;
       // for each character in the input string
-      //   if character is an opening parenthesis -- one of "([{"
-      //      push it into the stack (check for failure and throw an exception if so)
-      //   else if character is a closing parenthesis -- one of ")]}"
-      //      pop the latest opening parenthesis from the stack
-      //      if the popped item is null
+      for(int i = 0; i < fromString.length(); i++){
+         char Characterchecked = fromString.charAt(i);
+      if(Characterchecked=='('|| Characterchecked=='['||Characterchecked=='{'){
+          //      push it into the stack (check for failure and throw an exception if so)
+          if(stack==null){
+            throw new ParenthesesException("the stack is null and failure",ParenthesesException.STACK_FAILURE);
+          }
+          stack.push(Characterchecked);
+          count++;
+          //   else if character is a closing parenthesis -- one of ")]}"
+      }
+      else if(Characterchecked==')'|| Characterchecked==']'||Characterchecked=='}'){
+          //      if the popped item is null
       //         throw an exception, there are too many closing parentheses 
-      //      check the popped opening parenthesis against the closing parenthesis read from the string
+         if(stack.isEmpty()){
+            throw new ParenthesesException("there are too many closing parentheses ",ParenthesesException.TOO_MANY_CLOSING_PARENTHESES);
+         }
+         //      pop the latest opening parenthesis from the stack
+         Character poped = stack.pop();
+         count++;
+       //      check the popped opening parenthesis against the closing parenthesis read from the string
       //      if they do not match -- opening was { but closing was ], for example.
       //         throw an exception, wrong kind of parenthesis were in the text (e.g. "asfa ( asdf } sadf")
+      if ((Characterchecked == ')' && poped != '(') ||(Characterchecked == ']' && poped != '[') ||(Characterchecked == '}' && poped != '{')){
+           throw new ParenthesesException("wrong kind of parenthesis were in the text",ParenthesesException.PARENTHESES_IN_WRONG_ORDER);
+      }
+      }
+      }
       // if the stack is not empty after all the characters have been handled
       //   throw an exception since the string has more opening than closing parentheses.
-   }
-}
+      if (!stack.isEmpty()) {
+         throw new ParenthesesException("Too many opening parentheses.",ParenthesesException.STACK_FAILURE);
+      }
+          return count;
+         }
+      }
+   
+
+   

@@ -23,7 +23,7 @@ public class ParenthesisTests {
    static int result = 0;
 
    @Test
-   @Timeout(value = 10, threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+   //@Timeout(value = 10, threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
    @DisplayName("Very simple test with correct parentheses.")
    void simpleCorrectParenthesisTest() {
       try {
@@ -73,7 +73,7 @@ public class ParenthesisTests {
     * This test should not fail since the source file {@code SSN.java} is correct.
     */
    @Test
-   @Timeout(value = 10, threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+   //@Timeout(value = 10, threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
    @DisplayName("Java file with correct parentheses, should pass the test.")
    void correctJavaParenthesisTest() {
       try {

@@ -1,5 +1,7 @@
 package oy.tol.tra;
 
+import java.util.function.ObjDoubleConsumer;
+
 /**
  * An implementation of the StackInterface.
  * <p>
@@ -13,91 +15,126 @@ package oy.tol.tra;
  */
 public class StackImplementation<E> implements StackInterface<E> {
 
-   private Object[] itemArray;
+   private Object []itemArray;
    private int capacity;
    private int currentIndex = -1;
    private static final int DEFAULT_STACK_SIZE = 10;
 
+   /**
+    * Allocates a stack with a default capacity.
+    * @throws StackAllocationException
+    */
    public StackImplementation() throws StackAllocationException {
-       this(DEFAULT_STACK_SIZE);
+      this(DEFAULT_STACK_SIZE);
+      // TODO: call the constructor with size parameter with default size of 10.
+         
+      
    }
 
+   /** TODO: Implement so that
+    * - if the size is less than 2, throw StackAllocationException
+    * - if the allocation of the array throws with Java exception,
+    *   throw StackAllocationException.
+    * @param capacity The capacity of the stack.
+    * @throws StackAllocationException If cannot allocate room for the internal array.
+    */
    public StackImplementation(int capacity) throws StackAllocationException {
-       if (capacity < 2) {
-           throw new StackAllocationException("Capacity must be at least 2.");
-       }
-       this.capacity = capacity;
-       this.itemArray = new Object[capacity];
+      if (capacity<=2) {
+         throw new StackAllocationException("cannot allocate room for the internal array");
+      }
+      try{
+         itemArray = new Object[capacity];
+         this.capacity=capacity;
+      }catch (OutOfMemoryError e){
+         throw new StackAllocationException("Fail to allocate more room for the stack");
+      }
+      
    }
 
    @Override
    public int capacity() {
-       return capacity;
+      // TODO: Implement this
+      return capacity;
    }
 
    @Override
    public void push(E element) throws StackAllocationException, NullPointerException {
-       ensureCapacity();
-       if (element == null) {
-           throw new NullPointerException();
+      // TODO: Implement this
+       if (element == null){ 
+         throw new NullPointerException("the element to push cannot be null ");
        }
-       itemArray[++currentIndex] = element;
+       if(currentIndex >= capacity-1){
+         try{
+            int newCAPACITY = 2*capacity;
+            Object [] newArray = new Object[newCAPACITY];
+            for (int i=0; i<capacity; i++){
+               newArray[i] = itemArray[i];
+            }
+            itemArray = newArray;
+            capacity = newCAPACITY;
+         }catch(OutOfMemoryError e){
+            throw new StackAllocationException("Fail to allocate more room for the stack");
+         }
+       }
+       itemArray[currentIndex+1] = element;
+       currentIndex++;       
    }
 
    @SuppressWarnings("unchecked")
    @Override
    public E pop() throws StackIsEmptyException {
-       if (isEmpty()) {
-           throw new StackIsEmptyException("Cannot pop from an empty stack.");
-       }
-       return (E) itemArray[currentIndex--];
+      if (currentIndex == -1){
+         throw new StackIsEmptyException("the stack cannnot be empty") ;
+      }
+      Object popElement = itemArray[currentIndex];
+      currentIndex--;
+      return (E)popElement;
    }
 
    @SuppressWarnings("unchecked")
    @Override
    public E peek() throws StackIsEmptyException {
-       if (isEmpty()) {
-           throw new StackIsEmptyException("Cannot peek into an empty stack.");
-       }
-       return (E) itemArray[currentIndex];
+      if (currentIndex == -1){
+         throw new StackIsEmptyException("the stack cannnot be empty");
+      }
+      Object peekElement=itemArray[currentIndex];
+      return (E)peekElement;
    }
 
    @Override
    public int size() {
-       return currentIndex + 1;
+      // TODO: Implement this
+      return currentIndex+1;
    }
 
    @Override
    public void clear() {
-       currentIndex = -1;
+      // TODO: Implement this
+        currentIndex = -1;
    }
 
    @Override
    public boolean isEmpty() {
-       return currentIndex == -1;
+      // TODO: Implement this
+      if (currentIndex == -1 ){
+         return (true);
+      }
+      else{
+         return(false);
+      }
+      
    }
 
    @Override
    public String toString() {
-       StringBuilder builder = new StringBuilder("[");
-       for (int index = 0; index <= currentIndex; index++) {
-           builder.append(itemArray[index].toString());
-           if (index < currentIndex) {
-               builder.append(", ");
-           }
-       }
-       builder.append("]");
-       return builder.toString();
-   }
-
-   private void ensureCapacity() {
-       if (size() == capacity()) {
-           int newCapacity = capacity * 2 + 1;
-           Object[] newArray = new Object[newCapacity];
-           System.arraycopy(itemArray, 0, newArray, 0, itemArray.length);
-           itemArray = newArray;
-           capacity = newCapacity;
-       }
+      StringBuilder builder = new StringBuilder("[");
+      for (var index = 0; index <= currentIndex; index++) {
+         builder.append(itemArray[index].toString());
+         if (index < currentIndex) {
+            builder.append(", ");
+         }
+      }
+      builder.append("]");
+      return builder.toString();
    }
 }
-

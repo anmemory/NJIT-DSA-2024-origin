@@ -1,0 +1,10 @@
+1. hash funtion: key % length of the array
+    handling the collision: (index(before)+i*i*i)% length of the array
+    for strings: hash=31*hash+hashString.charAt(i)
+2. Since computer cannot see it as a tree, insert the key as an array and use for loop (i<100) to get the top 100.
+3. I think my implementation may be a cheat for the test. The test want to test the top 100 and the test also wants to avoid the overflow, but if I use Hoare partition and then quiksort, the overflow still appears.(I have implemented the addtional checks) So I partiton, discart one part and then quiksort, then the overflow disappears and the programme can pass the test. The bulkfile is so big and I must give up something. This is really what I want to understand. (This is also shown in the code)
+4. I think my time complexity is relatively good since I use seconds to get the top 100 and finnish the test. But this may because I discart something as 3 said.
+   I use Hoare partiton but change something. Time complexity: O(n logn).
+5. Understand the "BadBookimplemetation" and then programming myself is difficult. The count is also difficult.
+6. I really understand the time complexity of the code(hundreds of seonds and seonds).
+   In DSA programming, I understand interface and loops more detailed than programming 2.

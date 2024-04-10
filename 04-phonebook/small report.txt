@@ -1,0 +1,9 @@
+1. I use key/length(mod) as the hash function, here I can get the code run. But I find that if I still use this hash function, the test code will put out a negative index like -21, and I ask someone to find out I should use “index += length” to make a positive index. (this one confuses me)
+I try some squared method but it doesn’t show any better.
+2. When find a null, I check this and put a data into it.
+3. As I said before, the array may appear negative index when I use the method and this may not take memory but this is a mistake, the size of my array is enough for the data.
+4. It can get 14 when I go to the test table. 
+5.I find that double hash is not enough because when I use mod and double hash, the negative index will appear. However, when it comes to “index+i*i”(Square or cubic), it will not show negative.
+6. An array, sorry that I don’t exactly understand what does it mean.
+Maybe it shows the issues in the dictionary and this may show what the size is used, the time or the truth of the code. This may show the efficiency of my code?
+7.Quick sort. I do use this one but I think through the test result, quick sort will become slower when handling a great large number of data.

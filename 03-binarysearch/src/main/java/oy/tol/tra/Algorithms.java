@@ -1,75 +1,86 @@
-
 package oy.tol.tra;
 
 public class Algorithms {
-    public static <T>void swap(T[] array,int index1,int index2){
-        T tmp=array[index1];
-        array[index1]=array[index2];
-        array[index2]=tmp;
-    }
-    public static <T extends Comparable<T>> void sort(T [] array){
-        for (int i = 0; i < array.length-1; i++) {
-            for (int j = 0; j < array.length-i-1; j++) {
-                if(array[j].compareTo(array[j+1])>0){
-                    swap(array, j, j+1);
-                }
+    public static <T extends Comparable<T>> void sort(T [] array) {
+        int i = array.length-1;
+        if (array  != null && array.length != 0){
+        for (int j=0; j<i; j++){
+           for (int k=0; k<i; k++){
+              if(array[k].compareTo(array[k+1])>0){
+                 T tmp = array[k];
+                 array[k] = array[k+1];
+                 array[k+1] = tmp;
+              }
+           }
+        }
+     }
+   }
+
+   public static <T> void reverse(T [] array) {
+    if (array != null && array.length != 0)
+      {
+      for ( int i=0; i < array.length/2; i++) {
+         T temp = array[i];
+         array[i] = array[array.length-i-1];
+         array[array.length-i-1] = temp;
+     }
+   }
+   }
+
+
+    public static <T extends Comparable<T>> int binarySearch(T aValue, T [] fromArray, int fromIndex, int toIndex) {
+        int middle;
+        while(fromIndex<=toIndex){
+            middle=fromIndex+(toIndex-fromIndex)/2;
+            if( aValue.compareTo(fromArray[middle])>0 ){
+                fromIndex=middle+1;
+            }else if(aValue.compareTo(fromArray[middle])<0){
+                toIndex=middle-1;
+            }else{
+                return middle;
             }
         }
+        return -1;
     }
-    public static <T> void reverse(T [] array){
-        int left=0;
-        int right=array.length-1;
-        while(left<right){
-            swap(array,left,right);
-            left++;
-            right--;
-        }
-    }
-    public static <T extends Comparable<T>> int binarySearch(T value, T[] array, int fromIndex, int toIndex) {
-        if (fromIndex <= toIndex) {
-            int mid = fromIndex + (toIndex - fromIndex) / 2;
-            int result = value.compareTo(array[mid]);
+
     
-            if (result == 0) {
-                return mid; 
-            } else if (result < 0) {
-                return binarySearch(value, array, fromIndex, mid - 1); 
-            } else {
-                return binarySearch(value, array, mid + 1, toIndex); 
+    public static <T>void swap(T[] array,int index1,int index2){
+        T temp=array[index1];
+        array[index1]=array[index2];
+        array[index2]=temp;
+    }//change: build a method for the swap function
+
+    private static <E extends Comparable<E>> int partition(E [] array, int begin, int end) {
+        E benchmark=array[begin];
+        int left=begin;
+        int right=end;
+        while (left!=right) {//change: I should not use if beause the loop should make a mistake and if I use while，the loop will run while the condition is true
+           while((left<right)&&array[right].compareTo(benchmark)>0) {//change: while the right number is bigger than the pivot, minus the index to find a smaller one
+                right--;
             }
-        }
-        return -1; 
-    }
-
-    public static <E extends Comparable<E>> void fastSort(E [] array) {
-        quickSort(array, 0, array.length - 1);
-    }
-
-    public static <E extends Comparable<E>> void quickSort(E[] array, int begin, int end) {
-        if (begin < end) {
-            int partitionIndex = partition(array, begin, end);
-            quickSort(array, begin, partitionIndex - 1);
-            quickSort(array, partitionIndex + 1, end);
-        }
-    }
-
-    private static <E extends Comparable<E>> int partition(E[] array, int begin, int end) {
-        E pivot = array[end];
-        int i = begin - 1;
-
-        for (int j = begin; j < end; j++) {
-            if (array[j].compareTo(pivot) <= 0) {
-                i++;
-                E temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
+           while((left<right)&&array[left].compareTo(benchmark)<=0) {//change: while the left number is smaller than the pivot, increase the index to find a bigger one
+                left++;
             }
-        }
-
-        E temp = array[i + 1];
-        array[i + 1] = array[end];
-        array[end] = temp;
-
-        return i + 1;
+            if(left<right){//change: if the index does not cross, swap that two
+                swap(array, left, right);
+            }
+            }
+        array[begin]=array[left];//change: than restart a new one
+        array[left]=benchmark ;
+        return left;
     }
+
+
+public static <E extends Comparable<E>> void quickSort(E [] array, int begin, int end) {
+    if(begin>=end){
+        return;
+    }
+    int pivot=partition(array, begin, end);
+    quickSort(array, begin, pivot-1);
+    quickSort(array, pivot+1, end);
+}
+
+public static <E extends Comparable<E>> void fastSort(E [] array) {
+    quickSort(array, 0, array.length - 1);
+}
 }

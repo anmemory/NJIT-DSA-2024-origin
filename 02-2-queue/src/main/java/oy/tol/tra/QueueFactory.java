@@ -10,6 +10,10 @@ public class QueueFactory {
    private QueueFactory() {
    }
 
+   public static QueueInterface<Integer> createIntegerQueue() {
+      return new QueueImplementation<>();
+   }
+
    /**
     * Creates an instance of QueueInterface for Integer type.
     * @param capacity Number of elements the queue can hold.
@@ -21,6 +25,7 @@ public class QueueFactory {
       //   with the given capacity,
       // - and return the object to the caller.
       return new QueueImplementation<>(capacity);
+      
    }
 
    /**
